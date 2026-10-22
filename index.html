@@ -84,6 +84,23 @@ a:hover { color: var(--yellow); }
 .lang button[aria-pressed="true"] { background: var(--cyan); color: var(--bg); }
 :root[lang="en"] .step::before { content: "PHASE " counter(s, decimal-leading-zero); }
 
+/* Estelas de luz detrás del hero */
+html, body { overflow-x: clip; }
+.hero-bg {
+  position: absolute; top: 0; left: 0; right: 0; height: 820px; z-index: 0; pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+}
+.hero-bg canvas { width: 100%; height: 100%; display: block; }
+.hero-bg::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(90deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 80%, transparent) 38%, transparent 72%);
+}
+@media (max-width: 860px) {
+  .hero-bg::after { background: linear-gradient(180deg, color-mix(in srgb, var(--bg) 85%, transparent) 0%, color-mix(in srgb, var(--bg) 55%, transparent) 60%, transparent 100%); }
+}
+main { position: relative; z-index: 1; }
+
 /* Hero */
 .hero { padding-block: 72px 56px; display: grid; grid-template-columns: 1.35fr 1fr; gap: 40px; align-items: center; }
 @media (max-width: 860px) { .hero { grid-template-columns: 1fr; padding-block: 48px 40px; } }
@@ -121,7 +138,22 @@ h1 .glitch::after { color: var(--cyan); transform: translate(-3px, 0); mix-blend
 .btn-ghost:hover { background: var(--cyan); color: var(--bg); }
 
 /* Terminal del hero */
-.term { background: var(--panel); border: 1px solid var(--line); font: 400 .82rem/1.75 var(--font-mono); min-width: 0; }
+.term {
+  background: color-mix(in srgb, var(--panel) 70%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid color-mix(in srgb, var(--cyan) 30%, var(--line));
+  box-shadow: 0 30px 80px -24px color-mix(in srgb, var(--magenta) 45%, transparent), inset 0 1px 0 color-mix(in srgb, #fff 8%, transparent);
+  font: 400 .82rem/1.75 var(--font-mono); min-width: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .term { animation: float 7s ease-in-out infinite; }
+}
+@keyframes float { 50% { transform: translateY(-8px); } }
+.eyebrow.pill {
+  display: inline-flex; padding: 8px 14px; border: 1px solid color-mix(in srgb, var(--cyan) 40%, transparent);
+  background: color-mix(in srgb, var(--bg) 60%, transparent); letter-spacing: .1em;
+}
+.eyebrow.pill::before { display: none; }
 .term-bar { display: flex; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
 .term-bar span:first-child { color: var(--magenta); }
 .term pre { margin: 0; padding: 16px; white-space: pre-wrap; word-break: break-word; color: var(--muted); }
@@ -275,17 +307,19 @@ footer .wrap { padding-block: 24px; display: flex; justify-content: space-betwee
   </div>
 </header>
 
+<div class="hero-bg" aria-hidden="true"><canvas id="streaks"></canvas></div>
+
 <main class="wrap" id="inicio">
   <section class="hero">
     <div>
-      <div class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Ingeniero en Sistemas · Costa Rica</div>
+      <div class="eyebrow pill"><span class="status-dot" aria-hidden="true"></span> Ingeniero en Sistemas · Costa Rica</div>
       <h1><span class="glitch" data-text="Luis Fernando">Luis Fernando</span><br><span class="glitch" data-text="Meza Loaiza">Meza Loaiza</span></h1>
       <p class="role">Software Engineer · <em>Python Developer</em> · <em>Full Stack .NET</em> · Automatización y monitoreo</p>
       <p class="lede">Más de 5 años construyendo aplicaciones empresariales con .NET y Python, integradas con Oracle, SQL Server, SAP y APIs REST. Hoy desarrollo servicios en Python, automatizo procesos y monitoreo con Zabbix.</p>
       <div class="cta">
         <a class="btn btn-primary cut" href="#experiencia">Ver experiencia</a>
-        <a class="btn btn-ghost cut" href="#proyectos">Proyectos</a>
-        <a class="btn btn-ghost cut" href="#contacto">Contacto</a>
+        <a class="btn btn-ghost" href="#proyectos">Proyectos</a>
+        <a class="btn btn-ghost" href="#contacto">Contacto</a>
       </div>
     </div>
     <div class="term cut" aria-label="Resumen del perfil">
@@ -808,6 +842,80 @@ footer .wrap { padding-block: 24px; display: flex; justify-content: space-betwee
     });
   });
   applyLang(detectLang());
+
+  // Estelas de luz: cintas de hilos finos que ondulan en diagonal, mezcladas en modo aditivo.
+  (function streaks() {
+    var canvas = document.getElementById('streaks');
+    var ctx = canvas.getContext && canvas.getContext('2d');
+    if (!ctx) return;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var w = 0, h = 0, running = false, visible = true, t0 = performance.now();
+    var ribbons = [
+      { color: [255, 61, 139], base: 0.66, tilt: 0.40, amp: 60, freq: 1.6, speed: 0.10, phase: 0.0, strands: 22, spread: 40 },
+      { color: [52, 228, 234], base: 0.60, tilt: 0.34, amp: 80, freq: 1.1, speed: 0.07, phase: 2.1, strands: 24, spread: 54 },
+      { color: [244, 228, 9], base: 0.74, tilt: 0.30, amp: 45, freq: 2.0, speed: 0.13, phase: 4.2, strands: 12, spread: 22 }
+    ];
+
+    function resize() {
+      var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      w = canvas.clientWidth; h = canvas.clientHeight;
+      canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function draw(time) {
+      var t = (time - t0) / 1000;
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.clearRect(0, 0, w, h);
+      ctx.globalCompositeOperation = 'lighter';
+      var steps = Math.max(40, Math.round(w / 16));
+      ribbons.forEach(function (r) {
+        var c = r.color, rgb = c[0] + ',' + c[1] + ',' + c[2];
+        function path(k) {
+          ctx.beginPath();
+          for (var i = 0; i <= steps; i++) {
+            var u = i / steps, x = u * w;
+            var wave = Math.sin(u * Math.PI * r.freq + t * r.speed * 6 + r.phase + k * 0.9)
+                     + 0.5 * Math.sin(u * Math.PI * r.freq * 2.3 - t * r.speed * 4 + r.phase);
+            var y = h * r.base - u * h * r.tilt + wave * r.amp + k * r.spread * (1 + Math.sin(u * 3 + t * 0.3));
+            if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+        }
+        // Halo ancho y suave alrededor del centro de la cinta
+        path(0);
+        ctx.strokeStyle = 'rgba(' + rgb + ',0.07)'; ctx.lineWidth = r.spread * 1.4; ctx.stroke();
+        ctx.strokeStyle = 'rgba(' + rgb + ',0.10)'; ctx.lineWidth = r.spread * 0.5; ctx.stroke();
+        for (var s = 0; s < r.strands; s++) {
+          var k = s / (r.strands - 1) - 0.5;
+          var edge = Math.max(1 - Math.abs(k) * 1.7, 0);
+          path(k);
+          ctx.strokeStyle = 'rgba(' + rgb + ',' + (0.10 + 0.40 * edge) + ')';
+          ctx.lineWidth = Math.abs(k) < 0.06 ? 2.2 : 1.1;
+          ctx.stroke();
+        }
+      });
+    }
+
+    function loop(time) {
+      if (!running) return;
+      draw(time);
+      requestAnimationFrame(loop);
+    }
+    function update() {
+      var should = !reduce && visible && !document.hidden;
+      if (should && !running) { running = true; requestAnimationFrame(loop); }
+      if (!should) running = false;
+    }
+
+    resize();
+    draw(performance.now() + 4000);
+    window.addEventListener('resize', function () { resize(); if (!running) draw(performance.now()); });
+    document.addEventListener('visibilitychange', update);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) { visible = entries[0].isIntersecting; update(); }).observe(canvas);
+    }
+    update();
+  })();
 
   var btn = document.getElementById('copy');
   var ok = document.getElementById('copied');
