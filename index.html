@@ -77,6 +77,12 @@ a:hover { color: var(--yellow); }
 .top nav a { font: 500 .8rem/1 var(--font-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); text-decoration: none; }
 .top nav a:hover { color: var(--cyan); }
 @media (max-width: 640px) { .top nav { display: none; } }
+.top-right { display: flex; align-items: center; gap: 20px; }
+.lang { display: flex; border: 1px solid var(--line); }
+.lang button { font: 600 .72rem/1 var(--font-mono); letter-spacing: .08em; padding: 7px 9px; background: transparent; color: var(--muted); border: 0; cursor: pointer; }
+.lang button:hover { color: var(--fg); }
+.lang button[aria-pressed="true"] { background: var(--cyan); color: var(--bg); }
+:root[lang="en"] .step::before { content: "PHASE " counter(s, decimal-leading-zero); }
 
 /* Hero */
 .hero { padding-block: 72px 56px; display: grid; grid-template-columns: 1.35fr 1fr; gap: 40px; align-items: center; }
@@ -253,6 +259,7 @@ footer .wrap { padding-block: 24px; display: flex; justify-content: space-betwee
 <header class="top">
   <div class="wrap">
     <a class="brand" href="#inicio">LFM<b>//</b>DEV</a>
+    <div class="top-right">
     <nav aria-label="Secciones">
       <a href="#experiencia">Experiencia</a>
       <a href="#proyectos">Proyectos</a>
@@ -260,6 +267,11 @@ footer .wrap { padding-block: 24px; display: flex; justify-content: space-betwee
       <a href="#formacion">Formación</a>
       <a href="#contacto">Contacto</a>
     </nav>
+    <div class="lang" role="group" aria-label="Idioma">
+      <button type="button" id="lang-es" data-lang="es" aria-pressed="true">ES</button>
+      <button type="button" id="lang-en" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    </div>
   </div>
 </header>
 
@@ -610,6 +622,193 @@ footer .wrap { padding-block: 24px; display: flex; justify-content: space-betwee
     });
   });
 
+  // Traducción: el HTML está en español; EN mapea cada texto visible a su versión en inglés.
+  var EN = {
+    'Experiencia': 'Experience', 'Proyectos': 'Projects', 'Formación': 'Education', 'Contacto': 'Contact',
+    'Ingeniero en Sistemas · Costa Rica': 'Systems Engineer · Costa Rica',
+    '· Automatización y monitoreo': '· Automation & monitoring',
+    'Más de 5 años construyendo aplicaciones empresariales con .NET y Python, integradas con Oracle, SQL Server, SAP y APIs REST. Hoy desarrollo servicios en Python, automatizo procesos y monitoreo con Zabbix.': '5+ years building enterprise applications with .NET and Python, integrated with Oracle, SQL Server, SAP and REST APIs. Today I build Python services, automate processes and run monitoring with Zabbix.',
+    'Ver experiencia': 'View experience',
+    '● perfil.toml': '● profile.toml',
+    'titulo': 'degree', 'experiencia': 'experience', 'datos': 'data ', 'integra': 'connect', '[ahora]': '[now]', 'rol': 'role',
+    '"Ing. en Sistemas (UAM)"': '"Systems Eng. (UAM)"', '"5+ años"': '"5+ years"',
+    'años desarrollando software empresarial': 'years building enterprise software',
+    'roles en desarrollo, del backend al full stack': 'development roles, from backend to full stack',
+    'certificaciones: Zabbix, Dante y desarrollo con IA': 'certifications: Zabbix, Dante and AI-assisted development',
+    'proyectos personales: Android, móvil, web e IA': 'personal projects: Android, mobile, web and AI',
+    'Ingeniero en Sistemas especializado en': 'Systems Engineer specialized in',
+    'aplicaciones empresariales con .NET y Python': 'enterprise applications with .NET and Python',
+    '. He integrado sistemas con Oracle, SQL Server, SAP y APIs REST para el sector público y privado. Hoy me enfoco en automatización de procesos, servicios en Python, monitoreo con Zabbix y pruebas de servicios.': '. I have integrated systems with Oracle, SQL Server, SAP and REST APIs for public and private sector clients. Today I focus on process automation, Python services, Zabbix monitoring and service testing.',
+    '2024 — hoy': '2024 — present', 'Actual': 'Current', '2 años': '2 years',
+    'Desarrollo y mantenimiento de servicios en Python.': 'Build and maintain Python services.',
+    'Automatización de procesos operativos.': 'Automate operational processes.',
+    'Implementación y administración de monitoreo con Zabbix.': 'Deploy and administer monitoring with Zabbix.',
+    'Diseño y ejecución de pruebas de servicios e integraciones.': 'Design and run tests for services and integrations.',
+    'Soluciones web para optimizar procesos internos.': 'Web solutions to streamline internal processes.',
+    'Testing de servicios': 'Service testing',
+    'Sistema multimódulo para el MINAE con Blazor y ASP.NET.': "Multi-module system for Costa Rica's Ministry of Environment (MINAE) with Blazor and ASP.NET.",
+    'Componentes JavaScript para captura biométrica.': 'JavaScript components for biometric capture.',
+    'APIs e integración con Oracle; persistencia con Entity Framework.': 'APIs and Oracle integration; persistence with Entity Framework.',
+    'Automatización bancaria en C#.': 'Banking automation in C#.',
+    'Participación en un WMS integrado con SAP.': 'Contributed to a WMS integrated with SAP.',
+    'Plataformas para eventos virtuales y presenciales.': 'Platforms for virtual and in-person events.',
+    'Sistemas de votación y registro.': 'Voting and registration systems.',
+    'Sistema de gestión crediticia para JUPEMA.': "Credit management system for JUPEMA, Costa Rica's teachers' pension board.",
+    'Backend con ASP.NET MVC y frontend con Angular; datos con Entity Framework.': 'ASP.NET MVC backend and Angular frontend; data with Entity Framework.',
+    'Proyectos personales': 'Personal projects',
+    'El código de la mayoría es privado; recorrido o acceso al repo a petición.': 'Most of the code is private; walkthrough or repo access on request.',
+    'Todos': 'All', 'IA': 'AI', 'Herramientas': 'Tools',
+    'App móvil · React Native': 'Mobile app · React Native',
+    'Google Play · prueba cerrada': 'Google Play · closed testing',
+    'El problema': 'The problem',
+    'Quien arma maquetas (Gundam, coches, aviones) acumula kits sin saber qué tiene, qué está armando ni dónde quedó cada manual.': "Scale-model builders (Gundam, cars, planes) pile up kits without knowing what they own, what they're building or where each manual went.",
+    'Qué construí': 'What I built',
+    'Una app que lleva cada kit por un flujo': 'An app that moves each kit through a pipeline:',
+    'Deseados → Backlog → Proyecto → Completado → Colección': 'Wishlist → Backlog → Build → Done → Collection',
+    ', con sesiones de armado, cronómetro, notas por paso y buscador de manuales oficiales de Bandai.': ', with build sessions, a timer, per-step notes and a finder for official Bandai manuals.',
+    'Decisiones técnicas': 'Technical decisions',
+    'Monorepo con un núcleo de lógica pura (': 'Monorepo with a pure-logic core (',
+    ') separado de la UI, cubierto por 285 tests.': ') kept apart from the UI and covered by 285 tests.',
+    '100 % local: SQLite con Drizzle y migraciones versionadas; respaldo exportable compatible entre versiones.': 'Fully local: SQLite with Drizzle and versioned migrations; exportable backups that work across versions.',
+    'Tres idiomas desde el día uno (ES / EN / JA).': 'Three languages from day one (ES / EN / JA).',
+    'Publicación en Play Console con firma propia y versionado; issues cerrados con rama, merge y comentario.': 'Released through Play Console with its own signing key and versioning; each issue closed with a branch, merge and comment.',
+    'Política de privacidad pública': 'Public privacy policy',
+    'App Android · Kotlin': 'Android app · Kotlin',
+    'v1.0.0 firmada': 'v1.0.0 signed',
+    'App de gimnasio: rutinas, series, temporizador de descanso que sigue con la pantalla apagada, progreso, nutrición y un': 'Gym app: routines, sets, a rest timer that keeps running with the screen off, progress tracking, nutrition and an',
+    'entrenador con IA': 'AI coach',
+    'conectado a la API de Claude.': 'connected to the Claude API.',
+    'Cliente HTTP propio con OkHttp, sin SDK, para controlar el consumo y los errores.': 'Hand-written OkHttp client, no SDK, to control usage and error handling.',
+    'Room con migraciones hasta v5 y respaldo importable entre dispositivos.': 'Room with migrations up to v5 and backups you can import on another device.',
+    'APK de release firmado y listo para distribuir.': 'Signed release APK, ready to distribute.',
+    'Repo privado': 'Private repo', 'Demo a petición': 'Demo on request', 'En desarrollo': 'In development',
+    'Finanzas personales pensadas para Costa Rica:': 'Personal finance built for Costa Rica:',
+    'colones y dólares': 'colones and dollars',
+    'en la misma cuenta, presupuestos, metas de ahorro y alertas de sobregasto.': 'in the same account, budgets, savings goals and overspending alerts.',
+    'Lee facturas con OCR en el propio teléfono (ML Kit) y extrae total, fecha y comercio.': 'Reads receipts with on-device OCR (ML Kit) and extracts total, date and merchant.',
+    'Base de datos cifrada (SQLCipher), bloqueo con biometría + PIN.': 'Encrypted database (SQLCipher), biometric + PIN lock.',
+    'Arquitectura MVVM con Hilt; gastos recurrentes con WorkManager; widget de inicio.': 'MVVM architecture with Hilt; recurring expenses with WorkManager; home-screen widget.',
+    '~78 historias de usuario en 12 épicas, ejecutadas por hitos.': '~78 user stories across 12 epics, delivered in milestones.',
+    'Publicada': 'Live',
+    'Asesor de imagen personal: colorimetría (12 estaciones), forma de cara, cortes, gafas, estilo de ropa, probador con cámara y rutina de piel con evidencia citada.': 'Personal style advisor: color analysis (12 seasons), face shape, haircuts, glasses, clothing style, a camera fitting room and a skincare routine backed by cited studies.',
+    'La foto nunca sale del navegador': 'Your photo never leaves the browser',
+    ', sin servidor.': ', no server.',
+    'Modelos de visión de MediaPipe empaquetados para funcionar sin red.': 'MediaPipe vision models bundled to work fully offline.',
+    'JavaScript sin dependencias, 61 tests y pruebas E2E con Playwright.': 'Dependency-free JavaScript, 61 tests and Playwright E2E tests.',
+    'Probar en vivo': 'Try it live',
+    'Herramienta · Python': 'Tool · Python',
+    'MVP funcionando': 'Working MVP',
+    'Harness de desarrollo autónomo: escribes una historia de usuario con criterios ejecutables y un agente de IA la implementa por checkpoints que tú apruebas.': 'Autonomous development harness: you write a user story with executable acceptance criteria and an AI agent implements it in checkpoints you approve.',
+    'Un segundo agente caza bugs; solo cuentan los que se reproducen.': 'A second agent hunts bugs; only reproducible ones count.',
+    'Comandos aislados en contenedores Docker sin red; memoria en SQLite.': 'Commands run in network-less Docker containers; memory in SQLite.',
+    'Dashboard con consumo, bugs y lo que necesita atención humana.': 'Dashboard showing usage, bugs and what needs human attention.',
+    'Agentes LLM': 'LLM agents',
+    'Porta código entre lenguajes (primero TypeScript → Kotlin)': 'Ports code between languages (TypeScript → Kotlin first),',
+    'demostrando que el resultado se comporta igual': 'proving the result behaves the same',
+    ', ejecutando ambos lados con las mismas entradas.': ' by running both sides on the same inputs.',
+    'Testing diferencial: compara la “huella” de cada ejecución en vez de confiar en el juicio de un LLM.': "Differential testing: compares each run's behavioral fingerprint instead of trusting an LLM's judgment.",
+    'Búsqueda de entradas hasta la meseta de cobertura; bugs de origen en cuarentena.': 'Searches inputs until coverage plateaus; bugs in the source go to quarantine.',
+    'Inspirado en Helix (Shopify) y en investigación sobre migración de COBOL y C.': "Inspired by Shopify's Helix and research on COBOL and C migrations.",
+    'Testing diferencial': 'Differential testing',
+    'Cómo trabajo': 'How I work',
+    'Uso': 'I use',
+    ', un sistema de trabajo propio que comparten todos mis proyectos: cada fase cierra con una revisión humana antes de seguir, y los agentes de IA trabajan dentro de esos límites, no por encima de ellos.': ', my own working system shared by all my projects: every phase ends with a human review before moving on, and AI agents work inside those limits.',
+    'Visión y requisitos': 'Vision & requirements',
+    'Qué problema resuelve, para quién y qué queda fuera. Decisiones y preguntas abiertas por escrito.': 'What problem it solves, for whom and what is out of scope. Decisions and open questions in writing.',
+    'Arquitectura': 'Architecture',
+    'Capas, datos y riesgos antes de escribir código. Cada decisión queda registrada con su porqué.': 'Layers, data and risks before any code. Every decision is recorded with its rationale.',
+    'Historias y roadmap': 'Stories & roadmap',
+    'Historias de usuario con criterios de aceptación verificables, agrupadas en hitos.': 'User stories with verifiable acceptance criteria, grouped into milestones.',
+    'Spec por historia': 'Spec per story',
+    'Una especificación autocontenida por historia: casos borde incluidos.': 'A self-contained spec for each story, edge cases included.',
+    'Implementación y revisión': 'Build & review',
+    'Rama por cambio, tests, lint y revisión de código; hooks que bloquean secretos en los commits.': 'A branch per change, tests, lint and code review; hooks that keep secrets out of commits.',
+    'Verificación y release': 'Verify & release',
+    'Pruebas en dispositivo real, firma, versionado y publicación con notas de versión.': 'Testing on real devices, signing, versioning and release notes.',
+    'Habilidades': 'Skills',
+    'APIs REST · SOAP': 'REST · SOAP APIs',
+    'Python y operaciones': 'Python & operations',
+    'Automatización de procesos': 'Process automation',
+    'Zabbix · monitoreo': 'Zabbix · monitoring',
+    'Datos e integración': 'Data & integration',
+    'IA aplicada': 'Applied AI',
+    'Agentes de código (Claude Code)': 'Coding agents (Claude Code)',
+    'Ingeniería en Sistemas': 'Systems Engineering degree',
+    'Diplomado en Tecnologías de Información': 'Associate degree in Information Technology',
+    'Ultimate AI: desarrollo de software asistido por inteligencia artificial': 'Ultimate AI: AI-assisted software development',
+    'Curso completado. Desarrollo de software con asistentes y agentes de IA.': 'Course completed. Software development with AI assistants and agents.',
+    'Audinate. Redes de audio sobre IP con Dante.': 'Audinate. Audio-over-IP networking with Dante.',
+    'Zabbix, programa oficial de formación (certificado de asistencia).': 'Zabbix official training program (certificate of attendance).',
+    'Zabbix, curso oficial de 8 horas (certificado de asistencia).': 'Zabbix official 8-hour course (certificate of attendance).',
+    'Emitido': 'Issued', 'Vigente hasta': 'Valid until',
+    'Español ·': 'Spanish ·', 'nativo': 'native', 'Inglés ·': 'English ·', 'intermedio': 'intermediate',
+    '// 06 · contacto': '// 06 · contact',
+    'Hablemos': "Let's talk",
+    'Si tu equipo necesita a alguien que desarrolle servicios en Python o .NET, los integre con sus sistemas y los mantenga monitoreados, escríbeme.': 'If your team needs someone to build services in Python or .NET, integrate them with your systems and keep them monitored, get in touch.',
+    'Copiar correo': 'Copy email', 'Copiado': 'Copied',
+    'Espejo en vivo ↗': 'Espejo live ↗',
+    'Hecho a mano · HTML + CSS · sin trackers': 'Handmade · HTML + CSS · no trackers'
+  };
+  var ATTR_EN = { 'Secciones': 'Sections', 'Idioma': 'Language', 'Resumen del perfil': 'Profile summary', 'Filtrar proyectos': 'Filter projects' };
+  var MSG = {
+    es: { copied: 'Copiado', select: 'Seleccionado: pulsa Ctrl+C', title: 'Luis Fernando Meza' },
+    en: { copied: 'Copied', select: 'Selected: press Ctrl+C', title: 'Luis Fernando Meza' }
+  };
+  var original = new WeakMap();
+  var lang = 'es';
+
+  function norm(s) { return s.trim().replace(/\s+/g, ' '); }
+
+  function applyLang(next) {
+    lang = next;
+    document.documentElement.lang = next;
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        var p = n.parentNode && n.parentNode.nodeName;
+        return p === 'SCRIPT' || p === 'STYLE' ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var node;
+    while ((node = walker.nextNode())) {
+      if (!original.has(node)) original.set(node, node.nodeValue);
+      var es = original.get(node);
+      var key = norm(es);
+      if (!key) continue;
+      if (next === 'en' && EN[key] !== undefined) {
+        var lead = es.match(/^\s*/)[0], trail = es.match(/\s*$/)[0];
+        node.nodeValue = lead + EN[key] + trail;
+      } else {
+        node.nodeValue = es;
+      }
+    }
+    document.querySelectorAll('[aria-label]').forEach(function (el) {
+      if (!el.dataset.esLabel) el.dataset.esLabel = el.getAttribute('aria-label');
+      var es = el.dataset.esLabel;
+      el.setAttribute('aria-label', next === 'en' && ATTR_EN[es] ? ATTR_EN[es] : es);
+    });
+    document.querySelectorAll('.lang button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.lang === next));
+    });
+    document.title = MSG[next].title;
+  }
+
+  function detectLang() {
+    try {
+      var saved = localStorage.getItem('lang');
+      if (saved === 'es' || saved === 'en') return saved;
+    } catch (e) {}
+    var prefs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'es'];
+    return /^es\b/i.test(prefs[0]) ? 'es' : 'en';
+  }
+
+  document.querySelectorAll('.lang button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      applyLang(b.dataset.lang);
+      try { localStorage.setItem('lang', b.dataset.lang); } catch (e) {}
+    });
+  });
+  applyLang(detectLang());
+
   var btn = document.getElementById('copy');
   var ok = document.getElementById('copied');
   var mail = document.getElementById('mail');
@@ -618,11 +817,11 @@ footer .wrap { padding-block: 24px; display: flex; justify-content: space-betwee
     function selectIt() {
       var r = document.createRange(); r.selectNodeContents(mail);
       var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
-      ok.textContent = 'Seleccionado: pulsa Ctrl+C'; ok.hidden = false;
+      ok.textContent = MSG[lang].select; ok.hidden = false;
     }
     try {
       navigator.clipboard.writeText(text).then(function () {
-        ok.textContent = 'Copiado'; ok.hidden = false;
+        ok.textContent = MSG[lang].copied; ok.hidden = false;
         setTimeout(function () { ok.hidden = true; }, 2500);
       }, selectIt);
     } catch (e) { selectIt(); }
