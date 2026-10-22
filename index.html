@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Luis Fernando Meza</title>
+<meta name="description" content="Portafolio de Luis Fernando Meza Loaiza: Software Engineer, Python Developer y Full Stack .NET con 5+ años de experiencia en Costa Rica.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;700&family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: HUD de una columna; paneles con esquina recortada, hero de terminal, fichas de caso de estudio en rejilla */
+:root {
+  --bg: #0a0912;
+  --panel: #13111f;
+  --panel-2: #1a1729;
+  --line: #2c2742;
+  --fg: #ecebf5;
+  --muted: #a9a5c2;
+  --magenta: #ff3d8b;
+  --cyan: #34e4ea;
+  --yellow: #f4e409;
+  --ok: #5ef08a;
+  --font-display: "Chakra Petch", "Rajdhani", "Segoe UI", sans-serif;
+  --font-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --cut: 14px;
+  color-scheme: dark;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 400 1rem/1.65 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  background-attachment: fixed;
+}
+body::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50;
+  background: repeating-linear-gradient(to bottom, rgba(255,255,255,.025) 0 1px, transparent 1px 3px);
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg);
+}
+a { color: var(--cyan); text-underline-offset: 3px; }
+a:hover { color: var(--yellow); }
+:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
+::selection { background: var(--magenta); color: var(--bg); }
+
+.wrap {
+  max-width: 1120px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.cut {
+  clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
+}
+
+/* Barra superior */
+.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 12px; }
+.brand { font: 700 1rem/1 var(--font-display); letter-spacing: .12em; color: var(--fg); text-decoration: none; }
+.brand b { color: var(--magenta); }
+.top nav { display: flex; gap: 20px; flex-wrap: wrap; }
+.top nav a { font: 500 .8rem/1 var(--font-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--muted); text-decoration: none; }
+.top nav a:hover { color: var(--cyan); }
+@media (max-width: 640px) { .top nav { display: none; } }
+
+/* Hero */
+.hero { padding-block: 72px 56px; display: grid; grid-template-columns: 1.35fr 1fr; gap: 40px; align-items: center; }
+@media (max-width: 860px) { .hero { grid-template-columns: 1fr; padding-block: 48px 40px; } }
+.eyebrow { font: 600 .78rem/1 var(--font-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--cyan); display: flex; align-items: center; gap: 10px; }
+.eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+.status-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); box-shadow: 0 0 10px var(--ok); }
+h1 {
+  font: 700 clamp(2.6rem, 7vw, 5.2rem)/0.95 var(--font-display);
+  margin: 18px 0 20px; letter-spacing: -.01em; text-transform: uppercase; text-wrap: balance;
+}
+h1 .glitch { position: relative; display: inline-block; color: var(--fg); }
+h1 .glitch::before, h1 .glitch::after {
+  content: attr(data-text); position: absolute; inset: 0; pointer-events: none;
+}
+h1 .glitch::before { color: var(--magenta); transform: translate(3px, 0); mix-blend-mode: screen; opacity: .85; clip-path: inset(0 0 55% 0); }
+h1 .glitch::after { color: var(--cyan); transform: translate(-3px, 0); mix-blend-mode: screen; opacity: .85; clip-path: inset(55% 0 0 0); }
+@media (prefers-reduced-motion: no-preference) {
+  h1 .glitch::before { animation: g1 4.5s infinite steps(1); }
+  h1 .glitch::after { animation: g2 4.5s infinite steps(1); }
+}
+@keyframes g1 { 0%,92%,100% { transform: translate(3px,0); clip-path: inset(0 0 55% 0); } 94% { transform: translate(-6px,-2px); clip-path: inset(10% 0 70% 0); } 96% { transform: translate(5px,1px); clip-path: inset(40% 0 30% 0); } }
+@keyframes g2 { 0%,92%,100% { transform: translate(-3px,0); clip-path: inset(55% 0 0 0); } 94% { transform: translate(6px,2px); clip-path: inset(65% 0 10% 0); } 96% { transform: translate(-4px,-1px); clip-path: inset(20% 0 55% 0); } }
+.role { font: 500 clamp(1.05rem, 2.2vw, 1.3rem)/1.45 var(--font-body); color: var(--fg); max-width: 34em; margin: 0 0 12px; }
+.role em { font-style: normal; color: var(--yellow); }
+.lede { color: var(--muted); max-width: 36em; margin: 0 0 28px; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  font: 700 .85rem/1 var(--font-display); letter-spacing: .1em; text-transform: uppercase;
+  padding: 14px 22px; text-decoration: none; border: 0; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.btn-primary { background: var(--yellow); color: var(--bg); }
+.btn-primary:hover { background: var(--cyan); color: var(--bg); }
+.btn-ghost { background: transparent; color: var(--cyan); box-shadow: inset 0 0 0 1px var(--cyan); }
+.btn-ghost:hover { background: var(--cyan); color: var(--bg); }
+
+/* Terminal del hero */
+.term { background: var(--panel); border: 1px solid var(--line); font: 400 .82rem/1.75 var(--font-mono); min-width: 0; }
+.term-bar { display: flex; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; }
+.term-bar span:first-child { color: var(--magenta); }
+.term pre { margin: 0; padding: 16px; white-space: pre-wrap; word-break: break-word; color: var(--muted); }
+.term .k { color: var(--cyan); }
+.term .v { color: var(--fg); }
+.term .y { color: var(--yellow); }
+.term .p { color: var(--magenta); }
+.cursor { display: inline-block; width: .6em; height: 1.1em; vertical-align: -2px; background: var(--magenta); }
+@media (prefers-reduced-motion: no-preference) { .cursor { animation: blink 1s steps(1) infinite; } }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Cifras */
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-bottom: 88px; }
+@media (max-width: 760px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+.stat { background: var(--panel); padding: 20px; }
+.stat b { display: block; font: 700 2rem/1 var(--font-display); color: var(--cyan); font-variant-numeric: tabular-nums; }
+.stat span { display: block; margin-top: 8px; font-size: .85rem; color: var(--muted); line-height: 1.4; }
+
+/* Secciones */
+section { scroll-margin-top: 72px; }
+.sec { margin-bottom: 96px; }
+.sec-head { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 28px; border-bottom: 1px solid var(--line); padding-bottom: 14px; }
+.sec-tag { font: 600 .75rem/1 var(--font-mono); color: var(--magenta); letter-spacing: .12em; }
+h2 { font: 700 clamp(1.7rem, 4vw, 2.5rem)/1.05 var(--font-display); text-transform: uppercase; margin: 0; letter-spacing: .02em; text-wrap: balance; }
+.sec-note { margin-left: auto; color: var(--muted); font-size: .9rem; }
+
+/* Filtros */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.chip {
+  font: 600 .75rem/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase;
+  padding: 9px 14px; background: transparent; color: var(--muted); border: 1px solid var(--line); cursor: pointer;
+}
+.chip:hover { color: var(--fg); border-color: var(--muted); }
+.chip[aria-pressed="true"] { color: var(--bg); background: var(--magenta); border-color: var(--magenta); }
+
+/* Fichas de proyecto */
+.projects { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+@media (max-width: 860px) { .projects { grid-template-columns: 1fr; } }
+.proj { background: var(--panel); position: relative; display: flex; flex-direction: column; min-width: 0; }
+.proj::before { content: ""; position: absolute; left: 0; top: 0; height: 3px; width: 64px; background: var(--accent, var(--cyan)); box-shadow: 0 0 12px var(--accent, var(--cyan)); }
+.proj.feature { grid-column: 1 / -1; }
+.proj-body { padding: 26px 26px 22px; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+.proj-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; }
+.proj-kind { font: 600 .72rem/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent, var(--cyan)); }
+h3 { font: 700 1.6rem/1.1 var(--font-display); margin: 6px 0 0; letter-spacing: .01em; }
+.badge { font: 600 .7rem/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; padding: 6px 9px; border: 1px solid currentColor; white-space: nowrap; }
+.badge.live { color: var(--ok); }
+.badge.beta { color: var(--yellow); }
+.badge.dev { color: var(--cyan); }
+.proj p { margin: 0; color: var(--muted); }
+.proj p strong { color: var(--fg); font-weight: 600; }
+.proj ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 7px; }
+.proj li { padding-left: 18px; position: relative; color: var(--fg); font-size: .95rem; }
+.proj li::before { content: "▸"; position: absolute; left: 0; color: var(--accent, var(--cyan)); }
+.feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media (max-width: 860px) { .feature-grid { grid-template-columns: 1fr; } }
+.label { font: 600 .7rem/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; display: block; }
+.stack { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; }
+.stack span { font: 400 .74rem/1 var(--font-mono); padding: 6px 8px; background: var(--panel-2); color: var(--fg); border: 1px solid var(--line); }
+.proj-foot { border-top: 1px dashed var(--line); padding: 14px 26px; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; font: 400 .8rem/1.4 var(--font-mono); color: var(--muted); }
+.proj-foot a { font-weight: 600; text-decoration: none; }
+.proj-foot a::after { content: " ↗"; }
+
+/* Experiencia */
+.timeline { display: grid; gap: 20px; }
+.job { background: var(--panel); display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 28px; padding: 26px; position: relative; }
+.job::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent, var(--cyan)); box-shadow: 0 0 12px var(--accent, var(--cyan)); }
+@media (max-width: 760px) { .job { grid-template-columns: 1fr; gap: 12px; } }
+.job-when { font: 600 .82rem/1.5 var(--font-mono); color: var(--accent, var(--cyan)); letter-spacing: .04em; font-variant-numeric: tabular-nums; }
+.job-when small { display: block; color: var(--muted); font-weight: 400; margin-top: 4px; }
+.job h3 { font-size: 1.35rem; margin: 0; }
+.job-co { color: var(--muted); margin: 4px 0 12px; font-size: .95rem; }
+.job ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; }
+.job li { padding-left: 18px; position: relative; font-size: .95rem; }
+.job li::before { content: "▸"; position: absolute; left: 0; color: var(--accent, var(--cyan)); }
+.job .stack { margin-top: 14px; }
+.profile { max-width: 52em; font-size: 1.05rem; margin: 0 0 28px; color: var(--fg); }
+.profile b { color: var(--yellow); font-weight: 600; }
+
+/* Formación */
+.edu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-bottom: 20px; }
+@media (max-width: 700px) { .edu { grid-template-columns: 1fr; } }
+.edu-item { border-top: 2px solid var(--accent, var(--cyan)); padding-top: 14px; }
+.edu-item .label { color: var(--accent, var(--cyan)); }
+.edu-item h3 { font-size: 1.25rem; margin: 0 0 4px; }
+.edu-item p { margin: 0; color: var(--muted); }
+.certs { display: grid; gap: 16px; }
+.langs { display: flex; flex-wrap: wrap; gap: 28px; margin-top: 24px; font: 400 .9rem/1.4 var(--font-mono); color: var(--muted); }
+.langs b { color: var(--fg); font-weight: 600; }
+
+/* Método */
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); counter-reset: s; }
+@media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
+.step { background: var(--panel); padding: 22px; counter-increment: s; }
+.step::before { content: "FASE " counter(s, decimal-leading-zero); font: 600 .72rem/1 var(--font-mono); color: var(--yellow); letter-spacing: .12em; }
+.step h4 { font: 700 1.1rem/1.2 var(--font-display); margin: 10px 0 6px; text-transform: uppercase; letter-spacing: .03em; }
+.step p { margin: 0; color: var(--muted); font-size: .92rem; }
+.method-intro { max-width: 46em; color: var(--muted); margin: 0 0 24px; }
+.method-intro strong { color: var(--fg); }
+
+/* Stack */
+.skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px 20px; }
+@media (max-width: 860px) { .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .skills { grid-template-columns: 1fr; } }
+.skill { border-top: 2px solid var(--accent, var(--cyan)); padding-top: 14px; }
+.skill h4 { font: 700 1rem/1.2 var(--font-display); text-transform: uppercase; letter-spacing: .06em; margin: 0 0 10px; color: var(--accent, var(--cyan)); }
+.skill ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: .92rem; }
+
+/* Formación */
+.cert { background: var(--panel); padding: 28px; display: grid; grid-template-columns: auto 1fr auto; gap: 24px; align-items: center; }
+@media (max-width: 700px) { .cert { grid-template-columns: 1fr; } }
+.cert-seal { width: 72px; height: 72px; display: grid; place-items: center; border: 2px solid var(--yellow); color: var(--yellow); font: 700 1.1rem/1 var(--font-display); box-shadow: 0 0 18px color-mix(in srgb, var(--yellow) 35%, transparent); }
+.cert h3 { font-size: 1.35rem; margin: 0 0 6px; }
+.cert p { margin: 0; color: var(--muted); }
+.cert-meta { font: 400 .8rem/1.7 var(--font-mono); color: var(--muted); text-align: right; }
+@media (max-width: 700px) { .cert-meta { text-align: left; } }
+.cert-meta b { color: var(--fg); font-weight: 600; }
+
+/* Contacto */
+.contact { background: var(--panel); padding: 40px 32px; position: relative; overflow: hidden; }
+.contact::after { content: ""; position: absolute; right: -40px; top: -40px; width: 220px; height: 220px; border: 2px solid var(--magenta); transform: rotate(45deg); opacity: .25; pointer-events: none; }
+.contact h2 { margin-bottom: 12px; }
+.contact > p { color: var(--muted); max-width: 38em; margin: 0 0 24px; }
+.mail { display: flex; flex-wrap: wrap; gap: 12px; align-items: stretch; }
+.mail-addr { font: 600 clamp(.85rem, 2.4vw, 1.05rem)/1 var(--font-mono); color: var(--fg); background: var(--bg); border: 1px solid var(--line); padding: 14px 16px; user-select: all; word-break: break-all; min-width: 0; }
+.copied { font: 600 .8rem/1 var(--font-mono); color: var(--ok); align-self: center; }
+.links { display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px; font: 600 .85rem/1 var(--font-mono); }
+
+footer { border-top: 1px solid var(--line); margin-top: 72px; }
+footer .wrap { padding-block: 24px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font: 400 .78rem/1.4 var(--font-mono); color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio">LFM<b>//</b>DEV</a>
+    <nav aria-label="Secciones">
+      <a href="#experiencia">Experiencia</a>
+      <a href="#proyectos">Proyectos</a>
+      <a href="#stack">Stack</a>
+      <a href="#formacion">Formación</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="inicio">
+  <section class="hero">
+    <div>
+      <div class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Ingeniero en Sistemas · Costa Rica</div>
+      <h1><span class="glitch" data-text="Luis Fernando">Luis Fernando</span><br><span class="glitch" data-text="Meza Loaiza">Meza Loaiza</span></h1>
+      <p class="role">Software Engineer · <em>Python Developer</em> · <em>Full Stack .NET</em> · Automatización y monitoreo</p>
+      <p class="lede">Más de 5 años construyendo aplicaciones empresariales con .NET y Python, integradas con Oracle, SQL Server, SAP y APIs REST. Hoy desarrollo servicios en Python, automatizo procesos y monitoreo con Zabbix.</p>
+      <div class="cta">
+        <a class="btn btn-primary cut" href="#experiencia">Ver experiencia</a>
+        <a class="btn btn-ghost cut" href="#proyectos">Proyectos</a>
+        <a class="btn btn-ghost cut" href="#contacto">Contacto</a>
+      </div>
+    </div>
+    <div class="term cut" aria-label="Resumen del perfil">
+      <div class="term-bar"><span>● perfil.toml</span><span>v2026.10</span></div>
+<pre><span class="p">[dev]</span>
+<span class="k">titulo</span>      = <span class="v">"Ing. en Sistemas (UAM)"</span>
+<span class="k">experiencia</span> = <span class="y">"5+ años"</span>
+<span class="k">base</span>        = <span class="v">"Costa Rica (UTC-6)"</span>
+
+<span class="p">[stack]</span>
+<span class="k">backend</span>  = <span class="v">"Python · C# · ASP.NET Core · Blazor"</span>
+<span class="k">datos</span>    = <span class="v">"SQL Server · Oracle · EF"</span>
+<span class="k">ops</span>      = <span class="v">"Zabbix · Linux · testing"</span>
+<span class="k">integra</span>  = <span class="v">"SAP · REST · SOAP"</span>
+
+<span class="p">[ahora]</span>
+<span class="k">rol</span> = <span class="v">"Python Dev / Automation Eng."</span> <span class="cursor" aria-hidden="true"></span></pre>
+    </div>
+  </section>
+
+  <div class="stats cut" role="list">
+    <div class="stat" role="listitem"><b>5+</b><span>años desarrollando software empresarial</span></div>
+    <div class="stat" role="listitem"><b>4</b><span>roles en desarrollo, del backend al full stack</span></div>
+    <div class="stat" role="listitem"><b>4</b><span>certificaciones: Zabbix, Dante y desarrollo con IA</span></div>
+    <div class="stat" role="listitem"><b>6</b><span>proyectos personales: Android, móvil, web e IA</span></div>
+  </div>
+
+  <section class="sec" id="experiencia">
+    <div class="sec-head">
+      <span class="sec-tag">// 01</span>
+      <h2>Experiencia</h2>
+    </div>
+    <p class="profile">Ingeniero en Sistemas especializado en <b>aplicaciones empresariales con .NET y Python</b>. He integrado sistemas con Oracle, SQL Server, SAP y APIs REST para el sector público y privado. Hoy me enfoco en automatización de procesos, servicios en Python, monitoreo con Zabbix y pruebas de servicios.</p>
+    <div class="timeline">
+      <article class="job cut" style="--accent: var(--yellow)">
+        <div class="job-when">2024 — hoy<small>Actual</small></div>
+        <div>
+          <h3>Python Developer / Automation Engineer</h3>
+          <ul>
+            <li>Desarrollo y mantenimiento de servicios en Python.</li>
+            <li>Automatización de procesos operativos.</li>
+            <li>Implementación y administración de monitoreo con Zabbix.</li>
+            <li>Diseño y ejecución de pruebas de servicios e integraciones.</li>
+            <li>Soluciones web para optimizar procesos internos.</li>
+          </ul>
+          <div class="stack"><span>Python</span><span>Zabbix</span><span>Linux</span><span>Testing de servicios</span></div>
+        </div>
+      </article>
+      <article class="job cut" style="--accent: var(--cyan)">
+        <div class="job-when">2022 — 2024<small>2 años</small></div>
+        <div>
+          <h3>Full Stack Developer</h3>
+          <p class="job-co">SEA Servicios Múltiples</p>
+          <ul>
+            <li>Sistema multimódulo para el MINAE con Blazor y ASP.NET.</li>
+            <li>Componentes JavaScript para captura biométrica.</li>
+            <li>APIs e integración con Oracle; persistencia con Entity Framework.</li>
+            <li>Automatización bancaria en C#.</li>
+            <li>Participación en un WMS integrado con SAP.</li>
+          </ul>
+          <div class="stack"><span>C#</span><span>Blazor</span><span>ASP.NET</span><span>Oracle</span><span>Entity Framework</span><span>SAP</span></div>
+        </div>
+      </article>
+      <article class="job cut" style="--accent: var(--magenta)">
+        <div class="job-when">2020 — 2021</div>
+        <div>
+          <h3>Software Developer</h3>
+          <p class="job-co">Grupo Diverscan S.A.</p>
+          <ul>
+            <li>Plataformas para eventos virtuales y presenciales.</li>
+            <li>Sistemas de votación y registro.</li>
+          </ul>
+          <div class="stack"><span>ASP.NET MVC</span><span>Vue.js</span><span>SQL Server</span></div>
+        </div>
+      </article>
+      <article class="job cut" style="--accent: var(--ok)">
+        <div class="job-when">2020</div>
+        <div>
+          <h3>Software Developer</h3>
+          <p class="job-co">IT Rossmon</p>
+          <ul>
+            <li>Sistema de gestión crediticia para JUPEMA.</li>
+            <li>Backend con ASP.NET MVC y frontend con Angular; datos con Entity Framework.</li>
+          </ul>
+          <div class="stack"><span>ASP.NET MVC</span><span>Angular</span><span>Entity Framework</span></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec" id="proyectos">
+    <div class="sec-head">
+      <span class="sec-tag">// 02</span>
+      <h2>Proyectos personales</h2>
+      <span class="sec-note">El código de la mayoría es privado; recorrido o acceso al repo a petición.</span>
+    </div>
+
+    <div class="filters" role="group" aria-label="Filtrar proyectos">
+      <button class="chip" type="button" id="f-todos" data-f="todos" aria-pressed="true">Todos</button>
+      <button class="chip" type="button" id="f-android" data-f="android" aria-pressed="false">Android</button>
+      <button class="chip" type="button" id="f-movil" data-f="movil" aria-pressed="false">React Native</button>
+      <button class="chip" type="button" id="f-web" data-f="web" aria-pressed="false">Web</button>
+      <button class="chip" type="button" id="f-ia" data-f="ia" aria-pressed="false">IA</button>
+      <button class="chip" type="button" id="f-tooling" data-f="tooling" aria-pressed="false">Herramientas</button>
+    </div>
+
+    <div class="projects">
+      <article class="proj feature cut" data-tags="movil" style="--accent: var(--magenta)">
+        <div class="proj-body">
+          <div class="proj-top">
+            <div><span class="proj-kind">App móvil · React Native</span><h3>KitFlow</h3></div>
+            <span class="badge beta">Google Play · prueba cerrada</span>
+          </div>
+          <div class="feature-grid">
+            <div>
+              <span class="label">El problema</span>
+              <p>Quien arma maquetas (Gundam, coches, aviones) acumula kits sin saber qué tiene, qué está armando ni dónde quedó cada manual.</p>
+              <span class="label" style="margin-top:16px">Qué construí</span>
+              <p>Una app que lleva cada kit por un flujo <strong>Deseados → Backlog → Proyecto → Completado → Colección</strong>, con sesiones de armado, cronómetro, notas por paso y buscador de manuales oficiales de Bandai.</p>
+            </div>
+            <div>
+              <span class="label">Decisiones técnicas</span>
+              <ul>
+                <li>Monorepo con un núcleo de lógica pura (<code>@kitflow/core</code>) separado de la UI, cubierto por 285 tests.</li>
+                <li>100 % local: SQLite con Drizzle y migraciones versionadas; respaldo exportable compatible entre versiones.</li>
+                <li>Tres idiomas desde el día uno (ES / EN / JA).</li>
+                <li>Publicación en Play Console con firma propia y versionado; issues cerrados con rama, merge y comentario.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="stack"><span>TypeScript</span><span>React Native</span><span>Expo Router</span><span>SQLite</span><span>Drizzle</span><span>Jest</span><span>i18n</span></div>
+        </div>
+        <div class="proj-foot"><span>v1.1.7 · versionCode 14</span><a href="https://github.com/Aluiscard-develop/kitflow-privacy" target="_blank" rel="noopener">Política de privacidad pública</a></div>
+      </article>
+
+      <article class="proj cut" data-tags="android ia" style="--accent: var(--cyan)">
+        <div class="proj-body">
+          <div class="proj-top">
+            <div><span class="proj-kind">App Android · Kotlin</span><h3>GYMpro</h3></div>
+            <span class="badge live">v1.0.0 firmada</span>
+          </div>
+          <p>App de gimnasio: rutinas, series, temporizador de descanso que sigue con la pantalla apagada, progreso, nutrición y un <strong>entrenador con IA</strong> conectado a la API de Claude.</p>
+          <ul>
+            <li>Cliente HTTP propio con OkHttp, sin SDK, para controlar el consumo y los errores.</li>
+            <li>Room con migraciones hasta v5 y respaldo importable entre dispositivos.</li>
+            <li>APK de release firmado y listo para distribuir.</li>
+          </ul>
+          <div class="stack"><span>Kotlin</span><span>Jetpack Compose</span><span>Room</span><span>OkHttp</span><span>Claude API</span></div>
+        </div>
+        <div class="proj-foot"><span>Repo privado</span><span>Demo a petición</span></div>
+      </article>
+
+      <article class="proj cut" data-tags="android" style="--accent: var(--yellow)">
+        <div class="proj-body">
+          <div class="proj-top">
+            <div><span class="proj-kind">App Android · Kotlin</span><h3>Mis-Finanzas</h3></div>
+            <span class="badge dev">En desarrollo</span>
+          </div>
+          <p>Finanzas personales pensadas para Costa Rica: <strong>colones y dólares</strong> en la misma cuenta, presupuestos, metas de ahorro y alertas de sobregasto.</p>
+          <ul>
+            <li>Lee facturas con OCR en el propio teléfono (ML Kit) y extrae total, fecha y comercio.</li>
+            <li>Base de datos cifrada (SQLCipher), bloqueo con biometría + PIN.</li>
+            <li>Arquitectura MVVM con Hilt; gastos recurrentes con WorkManager; widget de inicio.</li>
+            <li>~78 historias de usuario en 12 épicas, ejecutadas por hitos.</li>
+          </ul>
+          <div class="stack"><span>Kotlin</span><span>Compose</span><span>Hilt</span><span>Room + SQLCipher</span><span>ML Kit</span><span>WorkManager</span></div>
+        </div>
+        <div class="proj-foot"><span>Repo privado</span><span>Demo a petición</span></div>
+      </article>
+
+      <article class="proj cut" data-tags="web ia" style="--accent: var(--ok)">
+        <div class="proj-body">
+          <div class="proj-top">
+            <div><span class="proj-kind">Web app · PWA</span><h3>Espejo</h3></div>
+            <span class="badge live">Publicada</span>
+          </div>
+          <p>Asesor de imagen personal: colorimetría (12 estaciones), forma de cara, cortes, gafas, estilo de ropa, probador con cámara y rutina de piel con evidencia citada.</p>
+          <ul>
+            <li><strong>La foto nunca sale del navegador</strong>: CSP <code>connect-src 'none'</code>, sin servidor.</li>
+            <li>Modelos de visión de MediaPipe empaquetados para funcionar sin red.</li>
+            <li>JavaScript sin dependencias, 61 tests y pruebas E2E con Playwright.</li>
+          </ul>
+          <div class="stack"><span>JavaScript</span><span>Canvas</span><span>MediaPipe</span><span>PWA</span><span>Playwright</span></div>
+        </div>
+        <div class="proj-foot"><span>GitHub Pages</span><a href="https://aluiscard-develop.github.io/espejo-app/" target="_blank" rel="noopener">Probar en vivo</a></div>
+      </article>
+
+      <article class="proj cut" data-tags="tooling ia" style="--accent: var(--magenta)">
+        <div class="proj-body">
+          <div class="proj-top">
+            <div><span class="proj-kind">Herramienta · Python</span><h3>WingsDevs</h3></div>
+            <span class="badge live">MVP funcionando</span>
+          </div>
+          <p>Harness de desarrollo autónomo: escribes una historia de usuario con criterios ejecutables y un agente de IA la implementa por checkpoints que tú apruebas.</p>
+          <ul>
+            <li>Un segundo agente caza bugs; solo cuentan los que se reproducen.</li>
+            <li>Comandos aislados en contenedores Docker sin red; memoria en SQLite.</li>
+            <li>Dashboard con consumo, bugs y lo que necesita atención humana.</li>
+          </ul>
+          <div class="stack"><span>Python</span><span>Docker</span><span>SQLite</span><span>Agentes LLM</span><span>uv</span></div>
+        </div>
+        <div class="proj-foot"><span>Repo privado</span><span>Demo a petición</span></div>
+      </article>
+
+      <article class="proj cut" data-tags="tooling ia" style="--accent: var(--cyan)">
+        <div class="proj-body">
+          <div class="proj-top">
+            <div><span class="proj-kind">Herramienta · Python</span><h3>Loop_compuertas</h3></div>
+            <span class="badge dev">En desarrollo</span>
+          </div>
+          <p>Porta código entre lenguajes (primero TypeScript → Kotlin) <strong>demostrando que el resultado se comporta igual</strong>, ejecutando ambos lados con las mismas entradas.</p>
+          <ul>
+            <li>Testing diferencial: compara la “huella” de cada ejecución en vez de confiar en el juicio de un LLM.</li>
+            <li>Búsqueda de entradas hasta la meseta de cobertura; bugs de origen en cuarentena.</li>
+            <li>Inspirado en Helix (Shopify) y en investigación sobre migración de COBOL y C.</li>
+          </ul>
+          <div class="stack"><span>Python 3.12</span><span>Testing diferencial</span><span>Kotlin</span><span>TypeScript</span></div>
+        </div>
+        <div class="proj-foot"><span>Repo privado</span><span>Demo a petición</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec" id="metodo">
+    <div class="sec-head">
+      <span class="sec-tag">// 03</span>
+      <h2>Cómo trabajo</h2>
+    </div>
+    <p class="method-intro">Uso <strong>Normas</strong>, un sistema de trabajo propio que comparten todos mis proyectos: cada fase cierra con una revisión humana antes de seguir, y los agentes de IA trabajan dentro de esos límites, no por encima de ellos.</p>
+    <div class="steps cut">
+      <div class="step"><h4>Visión y requisitos</h4><p>Qué problema resuelve, para quién y qué queda fuera. Decisiones y preguntas abiertas por escrito.</p></div>
+      <div class="step"><h4>Arquitectura</h4><p>Capas, datos y riesgos antes de escribir código. Cada decisión queda registrada con su porqué.</p></div>
+      <div class="step"><h4>Historias y roadmap</h4><p>Historias de usuario con criterios de aceptación verificables, agrupadas en hitos.</p></div>
+      <div class="step"><h4>Spec por historia</h4><p>Una especificación autocontenida por historia: casos borde incluidos.</p></div>
+      <div class="step"><h4>Implementación y revisión</h4><p>Rama por cambio, tests, lint y revisión de código; hooks que bloquean secretos en los commits.</p></div>
+      <div class="step"><h4>Verificación y release</h4><p>Pruebas en dispositivo real, firma, versionado y publicación con notas de versión.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="stack">
+    <div class="sec-head">
+      <span class="sec-tag">// 04</span>
+      <h2>Habilidades</h2>
+    </div>
+    <div class="skills">
+      <div class="skill" style="--accent: var(--cyan)"><h4>Backend .NET</h4><ul><li>C#</li><li>ASP.NET MVC · ASP.NET Core</li><li>Blazor</li><li>Entity Framework</li><li>APIs REST · SOAP</li></ul></div>
+      <div class="skill" style="--accent: var(--yellow)"><h4>Python y operaciones</h4><ul><li>Python</li><li>Automatización de procesos</li><li>Zabbix · monitoreo</li><li>Testing de servicios</li><li>Linux · Docker</li></ul></div>
+      <div class="skill" style="--accent: var(--magenta)"><h4>Frontend</h4><ul><li>JavaScript · TypeScript</li><li>Vue.js · Angular</li><li>React · React Native</li><li>HTML · CSS</li></ul></div>
+      <div class="skill" style="--accent: var(--ok)"><h4>Datos e integración</h4><ul><li>SQL Server</li><li>Oracle</li><li>SAP</li><li>SQLite · Room</li></ul></div>
+      <div class="skill" style="--accent: var(--cyan)"><h4>Android</h4><ul><li>Kotlin</li><li>Jetpack Compose · MVVM · Hilt</li><li>Room · SQLCipher · WorkManager</li><li>Google Play Console</li></ul></div>
+      <div class="skill" style="--accent: var(--yellow)"><h4>IA aplicada</h4><ul><li>Claude API</li><li>Agentes de código (Claude Code)</li><li>MediaPipe · ML Kit OCR</li><li>Git · GitHub · hooks</li></ul></div>
+    </div>
+  </section>
+
+  <section class="sec" id="formacion">
+    <div class="sec-head">
+      <span class="sec-tag">// 05</span>
+      <h2>Formación</h2>
+    </div>
+    <div class="edu">
+      <div class="edu-item" style="--accent: var(--yellow)"><span class="label">2023</span><h3>Ingeniería en Sistemas</h3><p>Universidad Americana (UAM)</p></div>
+      <div class="edu-item" style="--accent: var(--cyan)"><span class="label">2019</span><h3>Diplomado en Tecnologías de Información</h3><p>Colegio Universitario de Cartago (CUC)</p></div>
+    </div>
+    <div class="certs">
+      <div class="cert cut">
+        <div class="cert-seal" aria-hidden="true">AI</div>
+        <div>
+          <h3>Ultimate AI: desarrollo de software asistido por inteligencia artificial</h3>
+          <p>Curso completado. Desarrollo de software con asistentes y agentes de IA.</p>
+        </div>
+        <div class="cert-meta">Emitido <b>2026-07-23</b><br>ID <b>vup8 b1ns</b></div>
+      </div>
+      <div class="cert cut">
+        <div class="cert-seal" aria-hidden="true">D1</div>
+        <div>
+          <h3>Dante Level 1 Certified (3rd Edition)</h3>
+          <p>Audinate. Redes de audio sobre IP con Dante.</p>
+        </div>
+        <div class="cert-meta">Emitido <b>2025-11-07</b><br>Vigente hasta <b>2028-11-07</b><br>ID <b>e552-c477-a741-9d99</b></div>
+      </div>
+      <div class="cert cut">
+        <div class="cert-seal" aria-hidden="true">ZBX</div>
+        <div>
+          <h3>Advanced Zabbix Security Administration</h3>
+          <p>Zabbix, programa oficial de formación (certificado de asistencia).</p>
+        </div>
+        <div class="cert-meta">Emitido <b>2025-07-16</b><br>ID <b>ZEX03-2507-006</b></div>
+      </div>
+      <div class="cert cut">
+        <div class="cert-seal" aria-hidden="true">SNMP</div>
+        <div>
+          <h3>Advanced Zabbix SNMP Monitoring</h3>
+          <p>Zabbix, curso oficial de 8 horas (certificado de asistencia).</p>
+        </div>
+        <div class="cert-meta">Emitido <b>2025-07-03</b><br>ID <b>ZEX05-2507-004</b></div>
+      </div>
+    </div>
+    <div class="langs"><span>Español · <b>nativo</b></span><span>Inglés · <b>intermedio</b></span></div>
+  </section>
+
+  <section class="sec" id="contacto">
+    <div class="contact cut">
+      <span class="sec-tag">// 06 · contacto</span>
+      <h2>Hablemos</h2>
+      <p>Si tu equipo necesita a alguien que desarrolle servicios en Python o .NET, los integre con sus sistemas y los mantenga monitoreados, escríbeme.</p>
+      <div class="mail">
+        <span class="mail-addr" id="mail">luisfernandomezaloaiza@gmail.com</span>
+        <button class="btn btn-primary cut" type="button" id="copy">Copiar correo</button>
+        <span class="copied" id="copied" role="status" hidden>Copiado</span>
+      </div>
+      <div class="links">
+        <a href="https://github.com/Aluiscard-develop" target="_blank" rel="noopener">github.com/Aluiscard-develop ↗</a>
+        <a href="https://aluiscard-develop.github.io/espejo-app/" target="_blank" rel="noopener">Espejo en vivo ↗</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><span>© 2026 Luis Fernando Meza Loaiza</span><span>Hecho a mano · HTML + CSS · sin trackers</span></div>
+</footer>
+
+<script>
+(function () {
+  var chips = document.querySelectorAll('.chip');
+  var cards = document.querySelectorAll('.proj');
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      var f = chip.dataset.f;
+      chips.forEach(function (c) { c.setAttribute('aria-pressed', String(c === chip)); });
+      cards.forEach(function (card) {
+        card.hidden = f !== 'todos' && card.dataset.tags.split(' ').indexOf(f) === -1;
+      });
+    });
+  });
+
+  var btn = document.getElementById('copy');
+  var ok = document.getElementById('copied');
+  var mail = document.getElementById('mail');
+  btn.addEventListener('click', function () {
+    var text = mail.textContent.trim();
+    function selectIt() {
+      var r = document.createRange(); r.selectNodeContents(mail);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+      ok.textContent = 'Seleccionado: pulsa Ctrl+C'; ok.hidden = false;
+    }
+    try {
+      navigator.clipboard.writeText(text).then(function () {
+        ok.textContent = 'Copiado'; ok.hidden = false;
+        setTimeout(function () { ok.hidden = true; }, 2500);
+      }, selectIt);
+    } catch (e) { selectIt(); }
+  });
+})();
+</script>
+</body>
+</html>
